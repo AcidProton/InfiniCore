@@ -362,13 +362,6 @@ infiniStatus_t Descriptor::calculate(
 
     auto cuda_stream = reinterpret_cast<cudaStream_t>(stream);
 
-    // 如果没有维度，直接进行内存拷贝
-    if (_meta.ndim() == 0) {
-        CHECK_OR_RETURN(cudaMemcpyAsync(y, x, _meta.unit(), cudaMemcpyDeviceToDevice, cuda_stream) == cudaSuccess,
-                        INFINI_STATUS_INTERNAL_ERROR);
-        return INFINI_STATUS_SUCCESS;
-    }
-
     // 获取设备属性
     int max_threads = _opaque->internal->maxThreadsPerBlock();
 
